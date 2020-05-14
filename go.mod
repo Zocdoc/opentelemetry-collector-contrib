@@ -93,4 +93,4 @@ replace github.com/open-telemetry/opentelemetry-collector-contrib/processor/k8sp
 
 replace k8s.io/client-go => k8s.io/client-go v0.0.0-20190620085101-78d2af792bab
 
-replace github.com/open-telemetry/opentelemetry-collector => github.com/zocdoc/opentelemetry-collector v0.3.1-0.20200513033317-0aa99de01c3c
+replace github.com/open-telemetry/opentelemetry-collector => ../opentelemetry-collector
