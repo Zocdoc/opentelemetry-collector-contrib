@@ -1,4 +1,4 @@
-package eventfilterprocessor
+package attributewhitelistprocessor
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 
 const (
 	// The value of "type" key in configuration.
-	typeStr = "eventwhitelist"
+	typeStr = "attributewhitelist"
 )
 
 // Factory is the factory for processor.
@@ -35,7 +35,7 @@ func (f *Factory) CreateTraceProcessor(
 	c configmodels.Processor,
 ) (component.TraceProcessor, error) {
 	cfg := c.(*Config)
-	return newTraceProcesor(params, nextConsumer, cfg), nil
+	return newTraceProcesor(params, nextConsumer, *cfg)
 }
 
 // CreateMetricsProcessor creates a metrics processor based on this config.
@@ -54,7 +54,7 @@ func generateDefaultConfig() *Config {
 			TypeVal: typeStr,
 			NameVal: typeStr,
 		},
-		EventWhiteList: []string{},
+		AttributeWhiteList: []string{},
 	}
 }
 
