@@ -18,6 +18,7 @@ require (
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/signalfxexporter v0.0.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/stackdriverexporter v0.0.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/extension/observer/k8sobserver v0.0.0
+	github.com/open-telemetry/opentelemetry-collector-contrib/processor/eventwhitelistprocessor v0.0.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/processor/k8sprocessor v0.0.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/receiver/carbonreceiver v0.0.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/receiver/collectdreceiver v0.0.0
@@ -101,3 +102,5 @@ replace github.com/open-telemetry/opentelemetry-collector-contrib/processor/k8sp
 replace k8s.io/client-go => k8s.io/client-go v0.0.0-20190620085101-78d2af792bab
 
 replace github.com/open-telemetry/opentelemetry-collector => ../opentelemetry-collector
+
+replace github.com/open-telemetry/opentelemetry-collector-contrib/processor/eventwhitelistprocessor => ./processor/eventfilterprocessor/
