@@ -1,4 +1,4 @@
-module opentelemetry-collector-contrib/processor/eventwhitelistprocessor
+module opentelemetry-collector-contrib/processor/attributewhitelistprocessor
 
 go 1.14
 
