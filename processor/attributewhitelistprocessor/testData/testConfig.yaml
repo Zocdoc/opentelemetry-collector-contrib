@@ -1,0 +1,19 @@
+receivers:
+  examplereceiver:
+
+exporters:
+  exampleexporter:
+
+processors:
+  attributewhitelist:
+    event_white_list:
+      - something
+      - http.*
+
+service:
+  extensions: [zpages, health_check]
+  pipelines:
+    traces:
+      receivers: [zipkin]
+      processors: [attributewhitelist]
+      exporters: [honeycomb]

@@ -5,6 +5,7 @@ import (
 	"github.com/open-telemetry/opentelemetry-collector/component"
 	"github.com/open-telemetry/opentelemetry-collector/consumer"
 	"github.com/open-telemetry/opentelemetry-collector/consumer/pdata"
+	"regexp"
 )
 
 type attributewhitelistprocessor struct {
@@ -78,9 +79,10 @@ func (wp *attributewhitelistprocessor) Shutdown(context.Context) error {
 
 func (wp *attributewhitelistprocessor) shouldDeleteTag(tagName string) bool {
 	for _, allowed := range wp.attributeWhitelist {
-		if tagName == allowed {
-			return false
+		match, _ := regexp.MatchString(allowed, tagName)
+		if match {
+			return true
 		}
 	}
-	return true
+	return false
 }
