@@ -9,17 +9,26 @@ import (
 )
 
 type attributewhitelistprocessor struct {
-	nextConsumer       consumer.TraceConsumer
-	attributeWhitelist []string
+	nextConsumer    consumer.TraceConsumer
+	regexpWhiteList []*regexp.Regexp
 }
 
 func newTraceProcesor(
 	params component.ProcessorCreateParams,
 	nextConsumer consumer.TraceConsumer,
 	config Config) (component.TraceProcessor, error) {
+	var regexlist []*regexp.Regexp
+	for _, whitelist := range config.AttributeWhiteList {
+		r, err := regexp.Compile(whitelist)
+		if err != nil{
+			return nil, err
+		}
+		regexlist = append(regexlist, r)
+	}
+
 	proc := &attributewhitelistprocessor{
-		nextConsumer:       nextConsumer,
-		attributeWhitelist: config.AttributeWhiteList,
+		nextConsumer:    nextConsumer,
+		regexpWhiteList: regexlist,
 	}
 	return proc, nil
 }
@@ -78,9 +87,8 @@ func (wp *attributewhitelistprocessor) Shutdown(context.Context) error {
 }
 
 func (wp *attributewhitelistprocessor) shouldDeleteTag(tagName string) bool {
-	for _, allowed := range wp.attributeWhitelist {
-		match, _ := regexp.MatchString(allowed, tagName)
-		if match {
+	for _, r := range wp.regexpWhiteList {
+		if r.MatchString(tagName) {
 			return false
 		}
 	}
