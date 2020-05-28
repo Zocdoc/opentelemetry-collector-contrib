@@ -39,7 +39,10 @@ func TestAttributeWhiteListProcessor_ConsumeTraces(t *testing.T) {
 				"http.x": pdata.NewAttributeValueInt(123),
 			},
 			ExpectedAttrs: map[string]pdata.AttributeValue{
-				"somethingelse": pdata.NewAttributeValueInt(123),
+				"something": pdata.NewAttributeValueInt(123),
+				"http.port": pdata.NewAttributeValueInt(123),
+				"http.ipv4": pdata.NewAttributeValueInt(123),
+				"http.x": pdata.NewAttributeValueInt(123),
 			},
 			WhiteList:     []string{
 				"\\bsomething\\b",

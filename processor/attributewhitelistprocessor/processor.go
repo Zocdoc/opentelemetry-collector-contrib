@@ -81,8 +81,8 @@ func (wp *attributewhitelistprocessor) shouldDeleteTag(tagName string) bool {
 	for _, allowed := range wp.attributeWhitelist {
 		match, _ := regexp.MatchString(allowed, tagName)
 		if match {
-			return true
+			return false
 		}
 	}
-	return false
+	return true
 }
