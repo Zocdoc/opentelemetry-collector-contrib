@@ -17,7 +17,7 @@ package collection
 import (
 	metricspb "github.com/census-instrumentation/opencensus-proto/gen-go/metrics/v1"
 	resourcepb "github.com/census-instrumentation/opencensus-proto/gen-go/resource/v1"
-	"github.com/open-telemetry/opentelemetry-collector/translator/conventions"
+	"go.opentelemetry.io/collector/translator/conventions"
 	batchv1beta1 "k8s.io/api/batch/v1beta1"
 
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/k8sclusterreceiver/utils"
@@ -30,7 +30,7 @@ const (
 )
 
 var activeJobs = &metricspb.MetricDescriptor{
-	Name:        "kubernetes/cronjob/active_jobs",
+	Name:        "k8s/cronjob/active_jobs",
 	Description: "The number of actively running jobs for a cronjob",
 	Unit:        "1",
 	Type:        metricspb.MetricDescriptor_GAUGE_INT64,

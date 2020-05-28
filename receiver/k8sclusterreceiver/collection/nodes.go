@@ -21,7 +21,7 @@ import (
 	metricspb "github.com/census-instrumentation/opencensus-proto/gen-go/metrics/v1"
 	resourcepb "github.com/census-instrumentation/opencensus-proto/gen-go/resource/v1"
 	"github.com/iancoleman/strcase"
-	"github.com/open-telemetry/opentelemetry-collector/translator/conventions"
+	"go.opentelemetry.io/collector/translator/conventions"
 	corev1 "k8s.io/api/core/v1"
 
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/k8sclusterreceiver/utils"
@@ -61,7 +61,7 @@ func getMetricsForNode(node *corev1.Node, nodeConditionTypesToReport []string) [
 }
 
 func getNodeConditionMetric(nodeConditionTypeValue string) string {
-	return fmt.Sprintf("kubernetes/node/condition_%s", strcase.ToSnake(nodeConditionTypeValue))
+	return fmt.Sprintf("k8s/node/condition_%s", strcase.ToSnake(nodeConditionTypeValue))
 }
 
 func getResourceForNode(node *corev1.Node) *resourcepb.Resource {

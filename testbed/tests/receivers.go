@@ -19,9 +19,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/open-telemetry/opentelemetry-collector/component"
-	"github.com/open-telemetry/opentelemetry-collector/config/configmodels"
-	"github.com/open-telemetry/opentelemetry-collector/testbed/testbed"
+	"go.opentelemetry.io/collector/component"
+	"go.opentelemetry.io/collector/config/configmodels"
+	"go.opentelemetry.io/collector/testbed/testbed"
 	"go.uber.org/zap"
 
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/carbonreceiver"
@@ -120,8 +120,10 @@ func (sr *SFxMetricsDataReceiver) Stop() {
 func (sr *SFxMetricsDataReceiver) GenConfigYAMLStr() string {
 	// Note that this generates an exporter config for agent.
 	return fmt.Sprintf(`
-  signalfx:
-    ingest_url: "http://localhost:%d/v2/datapoint"`, sr.Port)
+    signalfx:
+      ingest_url: "http://localhost:%d/v2/datapoint"
+      api_url: "http://localhost/"
+      access_token: "access_token"`, sr.Port)
 }
 
 // ProtocolName returns protocol name as it is specified in Collector config.

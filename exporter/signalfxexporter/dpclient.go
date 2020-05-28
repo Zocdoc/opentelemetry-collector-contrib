@@ -26,10 +26,10 @@ import (
 	"sync"
 
 	"github.com/golang/protobuf/proto"
-	"github.com/open-telemetry/opentelemetry-collector/consumer/consumerdata"
-	"github.com/open-telemetry/opentelemetry-collector/consumer/consumererror"
-	"github.com/open-telemetry/opentelemetry-collector/exporter/exporterhelper"
 	sfxpb "github.com/signalfx/com_signalfx_metrics_protobuf"
+	"go.opentelemetry.io/collector/consumer/consumerdata"
+	"go.opentelemetry.io/collector/consumer/consumererror"
+	"go.opentelemetry.io/collector/exporter/exporterhelper"
 	"go.uber.org/zap"
 )
 
@@ -47,7 +47,7 @@ func (s *sfxDPClient) pushMetricsData(
 	md consumerdata.MetricsData,
 ) (droppedTimeSeries int, err error) {
 
-	sfxDataPoints, numDroppedTimeseries, err := metricDataToSingalFxV2(s.logger, md)
+	sfxDataPoints, numDroppedTimeseries, err := metricDataToSignalFxV2(s.logger, md)
 	if err != nil {
 		return exporterhelper.NumTimeSeries(md), consumererror.Permanent(err)
 	}

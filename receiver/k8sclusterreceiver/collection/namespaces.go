@@ -17,7 +17,7 @@ package collection
 import (
 	metricspb "github.com/census-instrumentation/opencensus-proto/gen-go/metrics/v1"
 	resourcepb "github.com/census-instrumentation/opencensus-proto/gen-go/resource/v1"
-	"github.com/open-telemetry/opentelemetry-collector/translator/conventions"
+	"go.opentelemetry.io/collector/translator/conventions"
 	corev1 "k8s.io/api/core/v1"
 
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/k8sclusterreceiver/utils"
@@ -27,7 +27,7 @@ func getMetricsForNamespace(ns *corev1.Namespace) []*resourceMetrics {
 	metrics := []*metricspb.Metric{
 		{
 			MetricDescriptor: &metricspb.MetricDescriptor{
-				Name:        "kubernetes/namespace/phase",
+				Name:        "k8s/namespace/phase",
 				Description: "The current phase of namespaces (1 for active and 0 for terminating)",
 				Type:        metricspb.MetricDescriptor_GAUGE_INT64,
 			},

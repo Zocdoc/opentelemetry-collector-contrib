@@ -19,7 +19,7 @@ import (
 	resourcepb "github.com/census-instrumentation/opencensus-proto/gen-go/resource/v1"
 	"github.com/golang/protobuf/ptypes"
 	"github.com/golang/protobuf/ptypes/timestamp"
-	"github.com/open-telemetry/opentelemetry-collector/consumer/consumerdata"
+	"go.opentelemetry.io/collector/consumer/consumerdata"
 )
 
 // Helper functions that produce protobuf
@@ -107,10 +107,9 @@ func newProtoMetric(m *redisMetric, pt *metricspb.Point, t *timeBundle) *metrics
 	return pbMetric
 }
 
-func buildLabels(
-	labels map[string]string,
-	descriptions map[string]string,
-) ([]*metricspb.LabelKey, []*metricspb.LabelValue) {
+func buildLabels(labels map[string]string, descriptions map[string]string) (
+	[]*metricspb.LabelKey, []*metricspb.LabelValue,
+) {
 	var keys []*metricspb.LabelKey
 	var values []*metricspb.LabelValue
 	for key, val := range labels {

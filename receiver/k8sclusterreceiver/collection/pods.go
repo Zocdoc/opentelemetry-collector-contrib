@@ -20,7 +20,7 @@ import (
 
 	metricspb "github.com/census-instrumentation/opencensus-proto/gen-go/metrics/v1"
 	resourcepb "github.com/census-instrumentation/opencensus-proto/gen-go/resource/v1"
-	"github.com/open-telemetry/opentelemetry-collector/translator/conventions"
+	"go.opentelemetry.io/collector/translator/conventions"
 	appsv1 "k8s.io/api/apps/v1"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -37,7 +37,7 @@ const (
 )
 
 var podPhaseMetric = &metricspb.MetricDescriptor{
-	Name:        "kubernetes/pod/phase",
+	Name:        "k8s/pod/phase",
 	Description: "Current phase of the pod (1 - Pending, 2 - Running, 3 - Succeeded, 4 - Failed, 5 - Unknown)",
 	Type:        metricspb.MetricDescriptor_GAUGE_INT64,
 }

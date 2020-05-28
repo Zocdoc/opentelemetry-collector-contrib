@@ -17,11 +17,11 @@ package receivercreator
 import (
 	"testing"
 
-	"github.com/open-telemetry/opentelemetry-collector/component"
-	"github.com/open-telemetry/opentelemetry-collector/config"
-	"github.com/open-telemetry/opentelemetry-collector/config/configmodels"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"go.opentelemetry.io/collector/component"
+	"go.opentelemetry.io/collector/config"
+	"go.opentelemetry.io/collector/config/configmodels"
 	"go.uber.org/zap"
 
 	"github.com/open-telemetry/opentelemetry-collector-contrib/extension/observer"
@@ -108,4 +108,30 @@ func TestOnChange(t *testing.T) {
 	runner.AssertExpectations(t)
 	assert.Equal(t, 1, handler.receiversByEndpointID.Size())
 	assert.Same(t, newRcvr, handler.receiversByEndpointID.Get("port-1")[0])
+}
+
+func TestDynamicConfig(t *testing.T) {
+	runner := &mockRunner{}
+	handler := &observerHandler{
+		logger:                zap.NewNop(),
+		receiversByEndpointID: receiverMap{},
+		runner:                runner,
+		receiverTemplates: map[string]receiverTemplate{
+			"name/1": {
+				receiverConfig: receiverConfig{typeStr: configmodels.Type("name"), config: userConfigMap{"endpoint": "`endpoint`:6379"}, fullName: "name/1"},
+				Rule:           "type.pod",
+				rule:           newRuleOrPanic("type.pod"),
+			},
+		},
+	}
+	runner.On("start", receiverConfig{
+		fullName: "name/1",
+		typeStr:  "name",
+		config:   userConfigMap{endpointConfigKey: "localhost:6379"},
+	}, userConfigMap{}).Return(&config.ExampleReceiverProducer{}, nil)
+	handler.OnAdd([]observer.Endpoint{
+		podEndpoint,
+	})
+
+	runner.AssertExpectations(t)
 }

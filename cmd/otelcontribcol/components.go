@@ -15,10 +15,10 @@
 package main
 
 import (
-	"github.com/open-telemetry/opentelemetry-collector/component"
-	"github.com/open-telemetry/opentelemetry-collector/component/componenterror"
-	"github.com/open-telemetry/opentelemetry-collector/config"
-	"github.com/open-telemetry/opentelemetry-collector/service/defaultcomponents"
+	"go.opentelemetry.io/collector/component"
+	"go.opentelemetry.io/collector/component/componenterror"
+	"go.opentelemetry.io/collector/config"
+	"go.opentelemetry.io/collector/service/defaultcomponents"
 
 	"github.com/open-telemetry/opentelemetry-collector-contrib/exporter/awsxrayexporter"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/exporter/azuremonitorexporter"
@@ -36,6 +36,7 @@ import (
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/collectdreceiver"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/jaegerlegacyreceiver"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/k8sclusterreceiver"
+	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/kubeletstatsreceiver"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/receivercreator"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/redisreceiver"
 	"github.com/open-telemetry/opentelemetry-collector-contrib/receiver/sapmreceiver"
@@ -74,6 +75,7 @@ func components() (config.Factories, error) {
 		&wavefrontreceiver.Factory{},
 		&jaegerlegacyreceiver.Factory{},
 		&redisreceiver.Factory{},
+		kubeletstatsreceiver.NewFactory(),
 		&simpleprometheusreceiver.Factory{},
 		&k8sclusterreceiver.Factory{},
 		&receivercreator.Factory{},

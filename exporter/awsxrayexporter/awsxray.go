@@ -19,12 +19,13 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/service/xray"
+	resourcepb "github.com/census-instrumentation/opencensus-proto/gen-go/resource/v1"
 	tracepb "github.com/census-instrumentation/opencensus-proto/gen-go/trace/v1"
-	"github.com/open-telemetry/opentelemetry-collector/component"
-	"github.com/open-telemetry/opentelemetry-collector/config/configmodels"
-	"github.com/open-telemetry/opentelemetry-collector/consumer/consumerdata"
-	"github.com/open-telemetry/opentelemetry-collector/consumer/consumererror"
-	"github.com/open-telemetry/opentelemetry-collector/exporter/exporterhelper"
+	"go.opentelemetry.io/collector/component"
+	"go.opentelemetry.io/collector/config/configmodels"
+	"go.opentelemetry.io/collector/consumer/consumerdata"
+	"go.opentelemetry.io/collector/consumer/consumererror"
+	"go.opentelemetry.io/collector/exporter/exporterhelper"
 	"go.uber.org/zap"
 
 	"github.com/open-telemetry/opentelemetry-collector-contrib/exporter/awsxrayexporter/translator"
@@ -55,7 +56,7 @@ func NewTraceExporter(config configmodels.Exporter, logger *zap.Logger, cn connA
 				if nextOffset > totalSpans {
 					nextOffset = totalSpans
 				}
-				droppedSpans, input := assembleRequest(td.Spans[offset:nextOffset], logger)
+				droppedSpans, input := assembleRequest(td.Spans[offset:nextOffset], td.Resource, logger)
 				totalDroppedSpans += droppedSpans
 				logger.Debug("request: " + input.String())
 				output, localErr := xrayClient.PutTraceSegments(input)
@@ -80,7 +81,7 @@ func NewTraceExporter(config configmodels.Exporter, logger *zap.Logger, cn connA
 	)
 }
 
-func assembleRequest(spans []*tracepb.Span, logger *zap.Logger) (int, *xray.PutTraceSegmentsInput) {
+func assembleRequest(spans []*tracepb.Span, resource *resourcepb.Resource, logger *zap.Logger) (int, *xray.PutTraceSegmentsInput) {
 	documents := make([]*string, len(spans))
 	droppedSpans := int(0)
 	for i, span := range spans {
@@ -89,6 +90,9 @@ func assembleRequest(spans []*tracepb.Span, logger *zap.Logger) (int, *xray.PutT
 			continue
 		}
 		spanName := span.Name.Value
+		if span.Resource == nil {
+			span.Resource = resource
+		}
 		jsonStr, err := translator.MakeSegmentDocumentString(spanName, span)
 		if err != nil {
 			droppedSpans++
