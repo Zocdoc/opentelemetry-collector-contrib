@@ -7,13 +7,12 @@ exporters:
 processors:
   attributewhitelist:
     event_white_list:
-      - something
+      - \bsomething\b
       - http.*
 
 service:
-  extensions: [zpages, health_check]
   pipelines:
     traces:
-      receivers: [zipkin]
+      receivers: [examplereceiver]
       processors: [attributewhitelist]
-      exporters: [honeycomb]
+      exporters: [exampleexporter]
