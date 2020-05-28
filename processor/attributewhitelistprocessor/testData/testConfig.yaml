@@ -8,7 +8,7 @@ processors:
   attributewhitelist:
     event_white_list:
       - \bsomething\b
-      - ^http\..*
+      - ^http\.*
 
 service:
   pipelines:

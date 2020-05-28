@@ -36,7 +36,7 @@ func TestLoadConfig(t *testing.T) {
 			},
 			AttributeWhiteList: []string {
 				"\\bsomething\\b",
-				"http.*",
+				"^http\\.*",
 			},
 		})
 }
