@@ -1,0 +1,18 @@
+receivers:
+  examplereceiver:
+
+exporters:
+  exampleexporter:
+
+processors:
+  attributewhitelist:
+    event_white_list:
+      - \bsomething\b
+      - ^http\.*
+
+service:
+  pipelines:
+    traces:
+      receivers: [examplereceiver]
+      processors: [attributewhitelist]
+      exporters: [exampleexporter]
