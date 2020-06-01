@@ -21,7 +21,7 @@ func TestLoadConfig(t *testing.T) {
 
 	config, err := config.LoadConfigFile(
 		t,
-		path.Join(".", "testdata", "testConfig.yaml"),
+		path.Join(".", "testData", "testConfig.yaml"),
 		factories)
 
 	require.Nil(t, err)
