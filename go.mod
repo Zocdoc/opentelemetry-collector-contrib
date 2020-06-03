@@ -103,3 +103,5 @@ replace github.com/open-telemetry/opentelemetry-collector-contrib/receiver/zipki
 replace github.com/open-telemetry/opentelemetry-collector-contrib/processor/k8sprocessor => ./processor/k8sprocessor/
 
 replace k8s.io/client-go => k8s.io/client-go v0.0.0-20190620085101-78d2af792bab
+
+replace github.com/open-telemetry/opentelemetry-collector => ../opentelemetry-collector
